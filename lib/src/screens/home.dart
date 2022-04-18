@@ -20,7 +20,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       vsync: this,
     );
 
-    catAnimation = Tween(begin: 0.0, end: 100.0).animate(
+    catAnimation = Tween(begin: -40.0, end: -120.0).animate(
       CurvedAnimation(
         parent: catController!,
         curve: Curves.fastLinearToSlowEaseIn,
@@ -46,6 +46,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       body: GestureDetector(
         child: Center(
           child: Stack(
+            overflow: Overflow.visible,
             children: [
               buildCatAnimation(),
               buildBox(),
@@ -61,26 +62,36 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return AnimatedBuilder(
       animation: catAnimation!,
       builder: (context, child) {
-        return Container(
-          child: child,
-          margin: EdgeInsets.only(top: catAnimation!.value),
+        return Positioned(
+          child: Cat(),
+          top: catAnimation!.value,
+          left: 0.0,
+          right: 0.0,
         );
       },
-      child: const Cat(),
     );
   }
 
   Widget buildBox() {
-    return Center(
-      child: Container(
-        child: const Center(
-          child: Text('Tap on me!',
-          style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,),),
+    return Container(
+      child: const Center(
+        child: Text(
+          'Tap on me!',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        height: 375.0,
-        width: 300.0,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: Colors.black,
+        ),
         color: Colors.lightGreenAccent,
       ),
+      height: 300.0,
+      width: 300.0,
     );
   }
 }
